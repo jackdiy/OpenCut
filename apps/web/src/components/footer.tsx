@@ -1,3 +1,16 @@
+/**
+ * Footer组件 - 应用程序页脚
+ * 
+ * 功能说明：
+ * - 显示品牌信息和Logo
+ * - 提供社交媒体链接（GitHub、Twitter/X、Discord）
+ * - 显示资源和公司链接
+ * - 显示版权信息
+ * - 响应式布局，适配不同屏幕尺寸
+ * - 使用Framer Motion实现淡入动画
+ * - 支持国际化
+ */
+
 "use client";
 
 import { motion } from "motion/react";
@@ -5,8 +18,16 @@ import Link from "next/link";
 import { RiDiscordFill, RiTwitterXLine } from "react-icons/ri";
 import { FaGithub } from "react-icons/fa6";
 import Image from "next/image";
+import { useI18n } from "@/lib/i18n";
 
+/**
+ * Footer主组件
+ * 渲染应用程序的页脚区域，包含品牌信息、导航链接和社交媒体图标
+ */
 export function Footer() {
+  // 获取国际化翻译函数
+  const { t } = useI18n();
+  
   return (
     <motion.footer
       className="bg-background border-t"
@@ -26,11 +47,10 @@ export function Footer() {
                 height={24}
                 className="invert dark:invert-0"
               />
-              <span className="font-bold text-lg">OpenCut</span>
+              <span className="font-bold text-lg">{t('common.opencut')}</span>
             </div>
             <p className="text-sm md:text-left text-muted-foreground mb-5">
-              The open source video editor that gets the job done. Simple,
-              powerful, and works on any platform.
+              {t('footer.description')}
             </p>
             <div className="flex justify-start gap-3">
               <Link
@@ -62,14 +82,14 @@ export function Footer() {
 
           <div className="flex gap-12 justify-start items-start py-2">
             <div>
-              <h3 className="font-semibold text-foreground mb-4">Resources</h3>
+              <h3 className="font-semibold text-foreground mb-4">{t('footer.resources')}</h3>
               <ul className="space-y-2 text-sm">
                 <li>
                   <Link
                     href="/roadmap"
                     className="text-muted-foreground hover:text-foreground transition-colors"
                   >
-                    Roadmap
+                    {t('header.roadmap')}
                   </Link>
                 </li>
                 <li>
@@ -77,7 +97,7 @@ export function Footer() {
                     href="/privacy"
                     className="text-muted-foreground hover:text-foreground transition-colors"
                   >
-                    Privacy policy
+                    {t('footer.privacy')}
                   </Link>
                 </li>
                 <li>
@@ -85,7 +105,7 @@ export function Footer() {
                     href="/terms"
                     className="text-muted-foreground hover:text-foreground transition-colors"
                   >
-                    Terms of use
+                    {t('footer.terms')}
                   </Link>
                 </li>
               </ul>
@@ -93,14 +113,14 @@ export function Footer() {
 
             {/* Company Links */}
             <div>
-              <h3 className="font-semibold text-foreground mb-4">Company</h3>
+              <h3 className="font-semibold text-foreground mb-4">{t('footer.company')}</h3>
               <ul className="space-y-2 text-sm">
                 <li>
                   <Link
                     href="/contributors"
                     className="text-muted-foreground hover:text-foreground transition-colors"
                   >
-                    Contributors
+                    {t('header.contributors')}
                   </Link>
                 </li>
                 <li>
@@ -110,7 +130,7 @@ export function Footer() {
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    About
+                    {t('header.about')}
                   </Link>
                 </li>
               </ul>
@@ -121,7 +141,7 @@ export function Footer() {
         {/* Bottom Section */}
         <div className="pt-2 flex flex-col md:flex-row justify-between items-start gap-4">
           <div className="flex items-center gap-4 text-sm text-muted-foreground">
-            <span>© 2025 OpenCut, All Rights Reserved</span>
+            <span>{t('footer.copyright')}</span>
           </div>
         </div>
       </div>

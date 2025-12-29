@@ -39,8 +39,10 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useProjectStore } from "@/stores/project-store";
 import { useTimelineStore } from "@/stores/timeline-store";
 import type { TProject } from "@/types/project";
+import { useI18n } from "@/lib/i18n";
 
 export default function ProjectsPage() {
+  const { t } = useI18n();
   const {
     savedProjects,
     isLoading,
@@ -90,7 +92,7 @@ export default function ProjectsPage() {
   );
 
   const handleCreateProject = async () => {
-    const projectId = await createNewProject("New Project");
+    const projectId = await createNewProject(t('projects.newProject'));
     console.log("projectId", projectId);
     router.push(`/editor/${projectId}`);
   };
@@ -143,7 +145,7 @@ export default function ProjectsPage() {
           className="flex items-center gap-1 hover:text-muted-foreground transition-colors"
         >
           <ChevronLeft className="size-5! shrink-0" />
-          <span className="text-sm font-medium">Back</span>
+          <span className="text-sm font-medium">{t('common.back')}</span>
         </Link>
         <div className="block md:hidden">
           {isSelectionMode ? (
@@ -154,7 +156,7 @@ export default function ProjectsPage() {
                 onClick={handleCancelSelection}
               >
                 <X className="size-4!" />
-                Cancel
+                {t('common.cancel')}
               </Button>
               {selectedProjects.size > 0 && (
                 <Button
@@ -163,7 +165,7 @@ export default function ProjectsPage() {
                   onClick={() => setIsBulkDeleteDialogOpen(true)}
                 >
                   <Trash2 className="size-4!" />
-                  Delete ({selectedProjects.size})
+                  {t('common.delete')} ({selectedProjects.size})
                 </Button>
               )}
             </div>
@@ -176,14 +178,14 @@ export default function ProjectsPage() {
         <div className="mb-8 flex items-center justify-between">
           <div className="flex flex-col gap-3">
             <h1 className="text-2xl md:text-3xl font-bold tracking-tight">
-              Your Projects
+              {t('projects.yourProjects')}
             </h1>
             <p className="text-muted-foreground">
               {savedProjects.length}{" "}
-              {savedProjects.length === 1 ? "project" : "projects"}
+              {savedProjects.length === 1 ? t('projects.project') : t('projects.project')}
               {isSelectionMode && selectedProjects.size > 0 && (
                 <span className="ml-2 text-primary">
-                  • {selectedProjects.size} selected
+                  • {selectedProjects.size} {t('projects.selected')}
                 </span>
               )}
             </p>
@@ -193,7 +195,7 @@ export default function ProjectsPage() {
               <div className="flex items-center gap-2">
                 <Button variant="outline" onClick={handleCancelSelection}>
                   <X className="size-4!" />
-                  Cancel
+                  {t('common.cancel')}
                 </Button>
                 {selectedProjects.size > 0 && (
                   <Button
@@ -201,7 +203,7 @@ export default function ProjectsPage() {
                     onClick={() => setIsBulkDeleteDialogOpen(true)}
                   >
                     <Trash2 className="size-4!" />
-                    Delete Selected ({selectedProjects.size})
+                    {t('projects.deleteSelected', { count: selectedProjects.size.toString() })}
                   </Button>
                 )}
               </div>
@@ -212,9 +214,9 @@ export default function ProjectsPage() {
                   onClick={() => setIsSelectionMode(true)}
                   disabled={savedProjects.length === 0}
                 >
-                  Select Projects
+                  {t('projects.selectProjects')}
                 </Button>
-                <CreateButton onClick={handleCreateProject} />
+                <CreateButton onClick={handleCreateProject} t={t} />
               </div>
             )}
           </div>
@@ -223,7 +225,7 @@ export default function ProjectsPage() {
         <div className="mb-4 flex items-center justify-between gap-4">
           <div className="flex-1 max-w-72">
             <Input
-              placeholder="Search projects..."
+              placeholder={t('projects.searchPlaceholder')}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
@@ -260,7 +262,7 @@ export default function ProjectsPage() {
                         }
                       }}
                     >
-                      Created{" "}
+                      {t('projects.created')}{" "}
                       {sortOption.startsWith("createdAt") &&
                         (sortOption.endsWith("asc") ? "↑" : "↓")}
                     </DropdownMenuItem>
@@ -277,7 +279,7 @@ export default function ProjectsPage() {
                         }
                       }}
                     >
-                      Name{" "}
+                      {t('projects.projectName')}{" "}
                       {sortOption.startsWith("name") &&
                         (sortOption.endsWith("asc") ? "↑" : "↓")}
                     </DropdownMenuItem>
@@ -285,9 +287,9 @@ export default function ProjectsPage() {
                 </DropdownMenu>
                 <TooltipContent>
                   <p>
-                    Sort by{" "}
-                    {sortOption.startsWith("createdAt") ? "date" : "name"} (
-                    {sortOption.endsWith("asc") ? "ascending" : "descending"})
+                    {t('projects.sortBy')}{" "}
+                    {sortOption.startsWith("createdAt") ? t('projects.sortByDate') : t('projects.sortByName')} (
+                    {sortOption.endsWith("asc") ? "↑" : "↓"})
                   </p>
                 </TooltipContent>
               </Tooltip>
@@ -310,10 +312,10 @@ export default function ProjectsPage() {
           >
             <Checkbox checked={someSelected ? "indeterminate" : allSelected} />
             <span className="text-sm font-medium">
-              {allSelected ? "Deselect All" : "Select All"}
+              {allSelected ? t('projects.deselectAll') : t('projects.selectAll')}
             </span>
             <span className="text-sm text-muted-foreground">
-              ({selectedProjects.size} of {sortedProjects.length} selected)
+              ({selectedProjects.size} of {sortedProjects.length} {t('projects.selected')})
             </span>
           </button>
         )}
@@ -337,11 +339,12 @@ export default function ProjectsPage() {
             ))}
           </div>
         ) : savedProjects.length === 0 ? (
-          <NoProjects onCreateProject={handleCreateProject} />
+          <NoProjects onCreateProject={handleCreateProject} t={t} />
         ) : sortedProjects.length === 0 ? (
           <NoResults
             searchQuery={searchQuery}
             onClearSearch={() => setSearchQuery("")}
+            t={t}
           />
         ) : (
           <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
@@ -594,29 +597,28 @@ function ProjectCard({
   );
 }
 
-function CreateButton({ onClick }: { onClick?: () => void }) {
+function CreateButton({ onClick, t }: { onClick?: () => void; t: any }) {
   return (
     <Button className="flex" onClick={onClick}>
       <Plus className="size-4!" />
-      <span className="text-sm font-medium">New project</span>
+      <span className="text-sm font-medium">{t('projects.newProject')}</span>
     </Button>
   );
 }
 
-function NoProjects({ onCreateProject }: { onCreateProject: () => void }) {
+function NoProjects({ onCreateProject, t }: { onCreateProject: () => void; t: any }) {
   return (
     <div className="flex flex-col items-center justify-center py-16 text-center">
       <div className="w-16 h-16 rounded-full bg-muted/30 flex items-center justify-center mb-4">
         <Video className="h-8 w-8 text-muted-foreground" />
       </div>
-      <h3 className="text-lg font-medium mb-2">No projects yet</h3>
+      <h3 className="text-lg font-medium mb-2">{t('projects.noProjects')}</h3>
       <p className="text-muted-foreground mb-6 max-w-md">
-        Start creating your first video project. Import media, edit, and export
-        professional videos.
+        {t('projects.noProjectsDescription')}
       </p>
       <Button size="lg" className="gap-2" onClick={onCreateProject}>
         <Plus className="h-4 w-4" />
-        Create Your First Project
+        {t('projects.createFirst')}
       </Button>
     </div>
   );
@@ -625,21 +627,23 @@ function NoProjects({ onCreateProject }: { onCreateProject: () => void }) {
 function NoResults({
   searchQuery,
   onClearSearch,
+  t,
 }: {
   searchQuery: string;
   onClearSearch: () => void;
+  t: any;
 }) {
   return (
     <div className="flex flex-col items-center justify-center py-16 text-center">
       <div className="w-16 h-16 rounded-full bg-muted/30 flex items-center justify-center mb-4">
         <Search className="h-8 w-8 text-muted-foreground" />
       </div>
-      <h3 className="text-lg font-medium mb-2">No results found</h3>
+      <h3 className="text-lg font-medium mb-2">{t('projects.noResults')}</h3>
       <p className="text-muted-foreground mb-6 max-w-md">
-        Your search for "{searchQuery}" did not return any results.
+        {t('projects.noResultsDescription', { searchQuery })}
       </p>
       <Button onClick={onClearSearch} variant="outline">
-        Clear Search
+        {t('projects.clearSearch')}
       </Button>
     </div>
   );
