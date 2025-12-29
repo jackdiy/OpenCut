@@ -10,6 +10,8 @@
   </tr>
 </table>
 
+English | [简体中文](README.zh-CN.md)
+
 ## Why?
 
 - **Privacy**: Your videos stay on your device
@@ -24,6 +26,39 @@
 - No watermarks or subscriptions
 - Analytics provided by [Databuddy](https://www.databuddy.cc?utm_source=opencut), 100% Anonymized & Non-invasive.
 - Blog powered by [Marble](https://marblecms.com?utm_source=opencut), Headless CMS.
+
+## Internationalization (i18n)
+
+OpenCut supports multiple languages with Chinese (Simplified) as the default language.
+
+### Language Switcher
+
+Users can find the language switcher button (globe icon 🌐) in the application Header. Click the button to toggle between Simplified Chinese and English.
+
+### Supported Languages
+
+- Chinese (Simplified) - `zh-CN` - Default
+- English - `en`
+
+### For Developers
+
+The i18n system is located in `apps/web/src/lib/i18n/` and includes:
+
+- `config.ts` - i18n configuration
+- `context.tsx` - React Context and Provider
+- `translations/zh-CN.json` - Simplified Chinese translations
+- `translations/en.json` - English translations
+
+To use translations in components:
+
+```tsx
+import { useI18n } from '@/lib/i18n';
+
+function MyComponent() {
+  const { t } = useI18n();
+  return <h1>{t('landing.hero.title')}</h1>;
+}
+```
 
 ## Project Structure
 
