@@ -1,9 +1,20 @@
 /**
- * 语言切换组件
- * 用于在页面上切换语言
+ * 语言切换组件 - LanguageSwitcher
+ * 
+ * 功能说明：
+ * - 显示当前选择的语言
+ * - 提供下拉菜单供用户切换语言
+ * - 使用Emoji国旗图标表示不同语言
+ * - 当前选中的语言会显示勾选标记
+ * - 语言选择会持久化到localStorage
+ * - 切换语言后立即更新所有UI文本
+ * 
+ * 支持的语言：
+ * - 简体中文 (zh-CN) 🇨🇳
+ * - English (en) 🇺🇸
  */
 
-'use client';
+"use client";
 
 import { Globe, Languages } from 'lucide-react';
 import { Button } from '../ui/button';
@@ -17,6 +28,7 @@ import {
 
 /**
  * 语言Emoji映射
+ * 将语言代码映射到对应的国旗Emoji
  */
 const localeEmojis: Record<Locale, string> = {
   'zh-CN': '🇨🇳',
@@ -25,9 +37,13 @@ const localeEmojis: Record<Locale, string> = {
 
 /**
  * 语言切换按钮组件
- * 显示当前语言并提供切换选项
+ * 
+ * 渲染一个图标按钮，点击后显示语言选择下拉菜单
+ * 用户可以在支持的语言之间切换
+ * 当前选中的语言会以高亮背景和勾选标记显示
  */
 export function LanguageSwitcher() {
+  // 从i18n上下文获取当前语言、设置语言函数和翻译函数
   const { locale, setLocale, t } = useI18n();
 
   return (

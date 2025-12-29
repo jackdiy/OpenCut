@@ -1,3 +1,16 @@
+/**
+ * Footer组件 - 应用程序页脚
+ * 
+ * 功能说明：
+ * - 显示品牌信息和Logo
+ * - 提供社交媒体链接（GitHub、Twitter/X、Discord）
+ * - 显示资源和公司链接
+ * - 显示版权信息
+ * - 响应式布局，适配不同屏幕尺寸
+ * - 使用Framer Motion实现淡入动画
+ * - 支持国际化
+ */
+
 "use client";
 
 import { motion } from "motion/react";
@@ -7,7 +20,12 @@ import { FaGithub } from "react-icons/fa6";
 import Image from "next/image";
 import { useI18n } from "@/lib/i18n";
 
+/**
+ * Footer主组件
+ * 渲染应用程序的页脚区域，包含品牌信息、导航链接和社交媒体图标
+ */
 export function Footer() {
+  // 获取国际化翻译函数
   const { t } = useI18n();
   
   return (
