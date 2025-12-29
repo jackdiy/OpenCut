@@ -6,8 +6,12 @@ import { ArrowRight } from "lucide-react";
 import { HeaderBase } from "./header-base";
 import Image from "next/image";
 import { ThemeToggle } from "./theme-toggle";
+import { LanguageSwitcher } from "./language-switcher";
+import { useI18n } from "@/lib/i18n";
 
 export function Header() {
+  const { t } = useI18n();
+  
   const leftContent = (
     <Link href="/" className="flex items-center gap-3">
       <Image
@@ -17,7 +21,7 @@ export function Header() {
         width={32}
         height={32}
       />
-      <span className="text-xl font-medium hidden md:block">OpenCut</span>
+      <span className="text-xl font-medium hidden md:block">{t('common.opencut')}</span>
     </Link>
   );
 
@@ -26,21 +30,22 @@ export function Header() {
       <div className="flex items-center gap-4">
         <Link href="/blog">
           <Button variant="text" className="text-sm p-0">
-            Blog
+            {t('header.blog')}
           </Button>
         </Link>
         <Link href="/contributors">
           <Button variant="text" className="text-sm p-0">
-            Contributors
+            {t('header.contributors')}
           </Button>
         </Link>
       </div>
       <Link href="/projects">
         <Button size="sm" className="text-sm ml-2">
-          Projects
+          {t('header.projects')}
           <ArrowRight className="h-4 w-4" />
         </Button>
       </Link>
+      <LanguageSwitcher />
       <ThemeToggle className="mr-2" />
     </nav>
   );

@@ -5,12 +5,15 @@ import { Button } from "../ui/button";
 import { SponsorButton } from "../ui/sponsor-button";
 import { VercelIcon } from "../icons";
 import { ArrowRight } from "lucide-react";
+import { useI18n } from "@/lib/i18n";
 
 import Image from "next/image";
 import { Handlebars } from "./handlebars";
 import Link from "next/link";
 
 export function Hero() {
+  const { t } = useI18n();
+  
   return (
     <div className="min-h-[calc(100svh-4.5rem)] flex flex-col justify-between items-center text-center px-4">
       <Image
@@ -44,8 +47,8 @@ export function Hero() {
           transition={{ delay: 0.2, duration: 0.8 }}
           className="inline-block font-bold tracking-tighter text-4xl md:text-[4rem]"
         >
-          <h1>The Open Source</h1>
-          <Handlebars>Video Editor</Handlebars>
+          <h1>{t('landing.hero.title')}</h1>
+          <Handlebars>{t('landing.hero.subtitle')}</Handlebars>
         </motion.div>
 
         <motion.p
@@ -54,8 +57,7 @@ export function Hero() {
           animate={{ opacity: 1 }}
           transition={{ delay: 0.4, duration: 0.8 }}
         >
-          A simple but powerful video editor that gets the job done. Works on
-          any platform.
+          {t('landing.hero.description')}
         </motion.p>
 
         <motion.div
@@ -70,7 +72,7 @@ export function Hero() {
               size="lg"
               className="px-6 h-11 text-base bg-foreground"
             >
-              Try early beta
+              {t('landing.hero.cta')}
               <ArrowRight className="relative z-10 ml-0.5 h-4 w-4 inline-block" />
             </Button>
           </Link>
